@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+<head>
+<script>
+function fun2() {
+    var gamepads = navigator.getGamepads();
+
+    for (var i = 0; i < gamepads.length; ++i)
+    {
+        var pad = gamepads[i];
+		
+		document.write(pad + "\n");
+    }
+}
+
+function myFunction() {
+    var rawGamepads =
+            (navigator.webkitGetGamepads && navigator.webkitGetGamepads()) ||
+            navigator.webkitGamepads || navigator.mozGamepads ||
+            navigator.msGamepads || navigator.gamepads;
+		
+	document.write(rawGamepads + "\n");
+	
+	var supported = (navigator.webkitGetGamepads && navigator.webkitGetGamepads()) ||
+          !!navigator.webkitGamepads || !!navigator.mozGamepads ||
+          !!navigator.msGamepads || !!navigator.gamepads ||
+          (navigator.getGamepads && navigator.getGamepads());
+	
+	document.write(supported + "\n");
+	
+	var gamepadSupportAvailable = !!navigator.webkitGetGamepads || !!navigator.webkitGamepads;
+	
+	document.write(gamepadSupportAvailable + "\n");
+	
+    var gamepads = navigator.getGamepads();
+
+	console.log("GetGamepads: " + gamepads + "\n");
+	
+    for (var i = 0; i < gamepads.length; ++i)
+    {
+        var pad = gamepads[i];
+		document.write(pad + "\n");
+        // todo; simple demo of displaying pad.axes and pad.buttons
+    }
+	
+    //document.getElementById("demo").innerHTML = "Paragraph changed.";
+}
+</script>
+</head>
+
+<body>
+
+<h1>My Web Page</h1>
+
+<p id="demo">A Paragraph</p>
+
+<button type="button" onclick="fun2()">Try it</button>
+
+</body>
+</html>
