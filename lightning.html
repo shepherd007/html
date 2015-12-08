@@ -9,36 +9,80 @@ Your browser does not support the HTML5 canvas tag.
 <script>
     viewSizeX = 1024;
     viewSizeY = 1024;
-    coeff = 4;
+    coeff = 800;
 
     var id;
-    
-    function draw(pt) {
-        d  = id.data;
-        d[pt] = 0;
-        d[pt+1] = 0;
-        d[pt+2] = 0;
-        d[pt+3] = 255;
-    }
-    
+
+   
+	function generate(data, n) {
+		for(j=n; j>=2; j/=2)
+		{
+			for(i=0; i<n; i+=j)
+			{
+				ind1 = i;
+				ind2 = i + j;
+				
+				pt1 = data[ind1];
+				pt2 = data[ind2];
+				
+				// convert coordinates				
+				newX = ((pt1 % viewSizeX) + (pt2 % viewSizeX)) /2;
+				newY = ((pt1/viewSizeX) + (pt2/viewSizeX)) / 2;
+				
+				// add some random noise
+				newX += (coeff * Math.random()) - (coeff/2);
+				newY += (coeff * Math.random()) - (coeff/2);
+				
+				coeff /= 2;
+				
+				newX = Math.floor(newX);
+				newY = Math.floor(newY);
+				
+				//convert back
+				pt = (newY * viewSizeX) + newX;
+				//var pt3 = Math.floor(((pt1 + pt2) / 4));// + (6 * Math.random()) - 3);
+				
+				data[i + j/2] = pt;				
+			}
+		}
+	}
+	
     function renderScene() {
         c = document.getElementById("myCanvas");
         ctx = c.getContext("2d");
         
         id = ctx.createImageData(viewSizeX,viewSizeY);
         
+		coeff = 800;
+		
         start = 0;
-        end = viewSizeX*viewSizeY;
+        end = viewSizeX*viewSizeY-1;
+		
+		data = [start, 0, 0,0,0,0,0,0,end];
+		generate(data, 8);
 
-        draw(start);
-        draw(stop);
-        
-        pt = (start + end)/2;
-        pt = pt + 10* Math.random();
-        
-        draw(pt);
-
-        ctx.putImageData( id, 0, 0 );
+		d  = id.data;
+		for(i=0;i<7;i++)
+		{
+		
+		idx = 4 * data[i];
+        d[idx] = 0;
+        d[idx+1] = 0;
+        d[idx+2] = 0;
+        d[idx+3] = 255;
+		
+		x1= data[i] % viewSizeX;
+		y1= Math.floor(data[i] / viewSizeX);
+		
+		x2= data[i+1] % viewSizeX;
+		y2= Math.floor(data[i+1] / viewSizeX);
+		
+ctx.moveTo(x1,y1);
+ctx.lineTo(x2,y2);
+ctx.stroke();		
+		}
+		
+      //  ctx.putImageData( id, 0, 0 );
     }
 
 
