@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<body>
+
+<canvas id="myCanvas" width="1024" height="512" style="border:1px solid #c3c3c3;">
+Your browser does not support the HTML5 canvas tag.
+</canvas>
+
+<script>
+    viewSizeX = 1024;
+    viewSizeY = 1024;
+    coeff = 4;
+
+    var id;
+    
+    function draw(pt) {
+        d  = id.data;
+        d[pt] = 0;
+        d[pt+1] = 0;
+        d[pt+2] = 0;
+        d[pt+3] = 255;
+    }
+    
+    function renderScene() {
+        c = document.getElementById("myCanvas");
+        ctx = c.getContext("2d");
+        
+        id = ctx.createImageData(viewSizeX,viewSizeY);
+        
+        start = 0;
+        end = viewSizeX*viewSizeY;
+
+        draw(start);
+        draw(stop);
+        
+        pt = (start + end)/2;
+        pt = pt + 10* Math.random();
+        
+        draw(pt);
+
+        ctx.putImageData( id, 0, 0 );
+    }
+
+
+</script>
+
+<button type="button" onclick="renderScene()">Try it</button>
+
+</body>
+</html>
