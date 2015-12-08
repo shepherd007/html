@@ -2,14 +2,14 @@
 <html>
 <body>
 
-<canvas id="myCanvas" width="1024" height="512" style="border:1px solid #c3c3c3;">
+<canvas id="myCanvas" width="512" height="512" style="border:1px solid #c3c3c3;">
 Your browser does not support the HTML5 canvas tag.
 </canvas>
 
 <script>
-    viewSizeX = 1024;
-    viewSizeY = 1024;
-    coeff = 800;
+    viewSizeX = 512;
+    viewSizeY = 512;
+    coeff = 0;
 
     var id;
 
@@ -53,7 +53,7 @@ Your browser does not support the HTML5 canvas tag.
         
         id = ctx.createImageData(viewSizeX,viewSizeY);
         
-		coeff = 800;
+		coeff = 200;
 		
         start = 0;
         end = viewSizeX*viewSizeY-1;
@@ -62,7 +62,7 @@ Your browser does not support the HTML5 canvas tag.
 		generate(data, 8);
 
 		d  = id.data;
-		for(i=0;i<7;i++)
+		for(i=0;i<8;i++)
 		{
 		
 		idx = 4 * data[i];
