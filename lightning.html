@@ -9,15 +9,20 @@ Your browser does not support the HTML5 canvas tag.
 <script>
     viewSizeX = 512;
     viewSizeY = 512;
-    coeff = 0;
+    coeff = 20;
 
     var id;
 
    
-	function generate(data, n) {
-		for(j=n; j>=2; j/=2)
+	function generate(start, end, n) {
+    
+        var data = new Array(n);
+        data[0] = start;
+        data[n-1] = end;
+        
+		for(j=n-1; j>=2; j/=2)
 		{
-			for(i=0; i<n; i+=j)
+			for(i=0; i<n-1; i+=j)
 			{
 				ind1 = i;
 				ind2 = i + j;
@@ -42,9 +47,11 @@ Your browser does not support the HTML5 canvas tag.
 				pt = (newY * viewSizeX) + newX;
 				//var pt3 = Math.floor(((pt1 + pt2) / 4));// + (6 * Math.random()) - 3);
 				
-				data[i + j/2] = pt;				
+				data[Math.floor(i + j/2)] = pt;				
 			}
 		}
+        
+        return data;
 	}
 	
     function renderScene() {
@@ -53,35 +60,34 @@ Your browser does not support the HTML5 canvas tag.
         
         id = ctx.createImageData(viewSizeX,viewSizeY);
         
-		coeff = 200;
-		
+		coeff = 400;
+		N = 4097;
+        
         start = 0;
         end = viewSizeX*viewSizeY-1;
 		
-		data = [start, 0, 0,0,0,0,0,0,end];
-		generate(data, 8);
+		//data = [start, 0, 0,0,0,0,0,0,end];
+		data = generate(start,end, N);
 
 		d  = id.data;
-		for(i=0;i<8;i++)
+        ctx.moveTo(0,0);
+		for(i=1;i<N-1;i++)
 		{
 		
-		idx = 4 * data[i];
-        d[idx] = 0;
-        d[idx+1] = 0;
-        d[idx+2] = 0;
-        d[idx+3] = 255;
-		
-		x1= data[i] % viewSizeX;
-		y1= Math.floor(data[i] / viewSizeX);
-		
-		x2= data[i+1] % viewSizeX;
-		y2= Math.floor(data[i+1] / viewSizeX);
-		
-ctx.moveTo(x1,y1);
-ctx.lineTo(x2,y2);
-ctx.stroke();		
+            idx = 4 * data[i];
+            d[idx] = 0;
+            d[idx+1] = 0;
+            d[idx+2] = 0;
+            d[idx+3] = 255;
+                        
+            x= data[i+1] % viewSizeX;
+            y= Math.floor(data[i+1] / viewSizeX);
+            
+            
+            ctx.lineTo(x,y);
 		}
 		
+            ctx.stroke();		        
       //  ctx.putImageData( id, 0, 0 );
     }
 
