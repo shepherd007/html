@@ -121,10 +121,10 @@ console.log(x,y);
 				for(i =0; i< viewSizeX*viewSizeY; i++)
 				{
 					idx = 4 * i;
-					d[idx] = 255;
-					d[idx+1] = 255;
-					d[idx+2] = 255;
-					d[idx+3] =255;
+					d[idx] *= 0.8;
+					d[idx+1] *= 0.8;
+					d[idx+2] *= 0.8;
+					d[idx+3] = 255;
 				}
 				
 				for(i=1;i<N;i++)
@@ -132,9 +132,9 @@ console.log(x,y);
 					idx = 4 * data[i];
 					
 					
-					d[idx] = 0;
-					d[idx+1] = 0;
-					d[idx+2] = 128;
+					d[idx] = 255;
+					d[idx+1] = 255;
+					d[idx+2] = 255;
 					d[idx+3] =255;
 								
 					x= data[i] % viewSizeX;
