@@ -12,18 +12,24 @@ Your browser does not support the HTML5 canvas tag.
     coeff = 20;
 
     var id;
-
+	var mousePos;
         var c = document.getElementById("myCanvas");
 	 var ctx = c.getContext("2d");
      id = ctx.createImageData(viewSizeX,viewSizeY);	
 	 
+	 setInterval(function(){ updateCanvas() }, 40);
+	 
       c.addEventListener('mousemove', function(evt) {
-        var mousePos = getMousePos(c, evt);
+        mousePos = getMousePos(c, evt);
         var message = 'Mouse position: ' + mousePos.x + ',' + mousePos.y;
-		renderScene(mousePos.x,mousePos.y);
+		//renderScene(mousePos.x,mousePos.y);
         console.log(message);
       }, false);		
 	  	
+		function updateCanvas() {
+			renderScene(mousePos.x,mousePos.y);
+		}
+		
 	function generate(start, end, n) {
     
         var data = new Array(n);
@@ -98,6 +104,7 @@ console.log(x,y);
 		coeff = 200;
 		N = 1025;
         
+
         var c = document.getElementById("myCanvas");
 	 var ctx = c.getContext("2d");
 	 
@@ -111,11 +118,11 @@ console.log(x,y);
 			// draw stream
 			d  = id.data;
 			
-				x0= start % viewSizeX;
-				y0= Math.floor(start / viewSizeX);		
+				//x0= start % viewSizeX;
+				//y0= Math.floor(start / viewSizeX);		
 				
-				ctx.strokeStyle = '#0000ff';
-				ctx.moveTo(x0,y0);
+			//	ctx.strokeStyle = '#0000ff';
+			//	ctx.moveTo(x0,y0);
 				
 				//clear buffer
 				for(i =0; i< viewSizeX*viewSizeY; i++)
@@ -125,17 +132,26 @@ console.log(x,y);
 					d[idx+1] *= 0.8;
 					d[idx+2] *= 0.8;
 					d[idx+3] = 255;
-				}
+					
+					if(d[idx] < 10)
+						d[idx] = 0;
+						
+					if(d[idx+1] < 10)
+						d[idx+1] = 0;
+
+					if(d[idx+2] < 10)
+						d[idx+2] = 0;						
+				}		
 				
 				for(i=1;i<N;i++)
 				{					
 					idx = 4 * data[i];
-					
-					
-					d[idx] = 255;
-					d[idx+1] = 255;
+				
+					reduce = Math.floor(100 * Math.random());
+					d[idx] =   255 - reduce;
+					d[idx+1] = 255 - reduce;
 					d[idx+2] = 255;
-					d[idx+3] =255;
+					d[idx+3] = 255;
 								
 					x= data[i] % viewSizeX;
 					y= Math.floor(data[i] / viewSizeX);
