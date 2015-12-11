@@ -11,10 +11,7 @@ id = ctx.createImageData(viewSizeX,viewSizeY);
 setInterval(function(){ updateCanvas() }, 40);
  
 c.addEventListener('mousemove', function(evt) {
-mousePos = getMousePos(c, evt);
-var message = 'Mouse position: ' + mousePos.x + ',' + mousePos.y;
-//renderScene(mousePos.x,mousePos.y);
-console.log(message);
+    mousePos = getMousePos(c, evt);
 }, false);        
       
 function updateCanvas() {
@@ -22,7 +19,6 @@ function updateCanvas() {
 }
     
 function generate(start, end, n) {
-
     var data = new Array(n);
     data[0] = start;
     data[n-1] = end;
@@ -48,6 +44,7 @@ function generate(start, end, n) {
             newX = Math.floor(newX);
             newY = Math.floor(newY);
             
+            // Limit to the image boundaries
             if(newX < 0) {
                 newX = 0;
             }
@@ -129,12 +126,7 @@ function renderScene(x, y) {
         d[idx] =   255 - reduce;
         d[idx+1] = 255 - reduce;
         d[idx+2] = 255;
-        d[idx+3] = 255;
-                    
-        x= data[i] % viewSizeX;
-        y= Math.floor(data[i] / viewSizeX);
-        
-        ctx.lineTo(x,y);
+        d[idx+3] = 255;                   
     }
 
     ctx.putImageData( id, 0, 0 );
