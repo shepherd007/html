@@ -75,8 +75,7 @@ function generate(start, end, n) {
 }  
 
 function getMousePos(canvas, evt) {
-    ctx = document.getElementById("myCanvas");
-    var rect = ctx.getBoundingClientRect();
+    var rect = canvas.getBoundingClientRect();
     return {
       x: evt.clientX - rect.left,
       y: evt.clientY - rect.top
@@ -93,10 +92,9 @@ function renderScene(x, y) {
     start = 0;
     end = y * viewSizeX + x;
     
-    // draw main stream
+    // generate main stream
     data = generate(start,end, N);
 
-    // draw stream
     d  = id.data;
                         
     //clear buffer
@@ -117,8 +115,9 @@ function renderScene(x, y) {
         if(d[idx+2] < 2)
             d[idx+2] = 0;                        
     }        
-            
-    for(i=1;i<N;i++)
+           
+    // draw a stroke
+    for(i=0;i<N;i++)
     {                    
         idx = 4 * data[i];
     
